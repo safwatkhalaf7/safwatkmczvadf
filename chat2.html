@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دردشة تفاعلية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 100%;
+            padding: 20px;
+        }
+        .chat-header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .username {
+            font-weight: bold;
+        }
+        .message-input {
+            display: flex;
+        }
+        .message-input input[type="text"], .message-input input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+        .message-input button {
+            width: 30%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .message-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">دردشة تفاعلية</div>
+    <div class="messages" id="messages"></div>
+    <div class="message-input">
+        <input type="text" id="username" placeholder="ادخل اسم المستخدم" required>
+        <input type="text" id="message" placeholder="اكتب رسالتك هنا" required>
+        <button id="sendButton">إرسال</button>
+    </div>
+</div>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDd1lG5pGwvo39anDhopYXGJ0s1AU_X6ZQ",
+        authDomain: "chat-48b25.firebaseapp.com",
+        databaseURL: "https://chat-48b25-default-rtdb.firebaseio.com",
+        projectId: "chat-48b25",
+        storageBucket: "chat-48b25.appspot.com",
+        messagingSenderId: "803735627880",
+        appId: "1:803735627880:web:e3e7e810a32d27694a33dd",
+        measurementId: "G-Z02SBF9C0N"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Define the sendMessage function globally
+    window.sendMessage = function() {
+        const username = document.getElementById('username').value;
+        const message = document.getElementById('message').value;
+        if (username && message) {
+            const messagesRef = ref(database, 'messages');
+            push(messagesRef, {
+                username: username,
+                message: message
+            }).then(() => {
+                document.getElementById('message').value = '';
+                console.log("Message sent successfully");
+            }).catch(error => {
+                console.error("Error sending message: ", error);
+            });
+        } else {
+            alert('يرجى إدخال اسم المستخدم والرسالة');
+        }
+    }
+
+    const messagesRef = ref(database, 'messages');
+    onChildAdded(messagesRef, (data) => {
+        const messageData = data.val();
+        const messagesContainer = document.getElementById('messages');
+        const newMessage = document.createElement('div');
+        newMessage.classList.add('message');
+        newMessage.innerHTML = '<span class="username">' + messageData.username + ':</span> ' + messageData.message;
+        messagesContainer.appendChild(newMessage);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+
+    console.log("Firebase initialized successfully");
+
+    // Attach the sendMessage function to the button
+    document.getElementById('sendButton').onclick = window.sendMessage;
+</script>
+
+</body>
+</html>

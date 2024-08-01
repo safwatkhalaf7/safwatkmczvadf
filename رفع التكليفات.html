@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع التكليفات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            color: red;
+            margin-top: 20px;
+            display: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            text-align: center;
+            direction: rtl;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .countdown {
+            font-size: 18px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>جدول مواعيد التكليفات</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم المادة</th>
+                <th>تاريخ البداية</th>
+                <th>تاريخ النهاية</th>
+                <th>الوقت المتبقي</th>
+            </tr>
+        </thead>
+        <tbody id="scheduleTable">
+        </tbody>
+    </table>
+
+    <div class="container">
+        <h1>رفع التكليفات</h1>
+        <form id="assignmentForm">
+            <label for="subject">اختر المادة:</label>
+            <select id="subject" name="subject">
+                <option value="المساحة الجيوديسية">المساحة الجيوديسية</option>
+                <option value="مساقط الخرائط">مساقط الخرائط</option>
+                <option value="المساحة الجوية">المساحة الجوية</option>
+                <option value="جغرافية مصر الطبيعية">جغرافية مصر الطبيعية</option>
+                <option value="الجغرافيا السياسية">الجغرافيا السياسية</option>
+                <option value="التخطيط الإقليمي">التخطيط الإقليمي</option>
+                <option value="استشعار عن بعد متقدم">استشعار عن بعد متقدم</option>
+            </select>
+            <br>
+            <button type="submit">رفع التكليف</button>
+        </form>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const schedules = {
+            "المساحة الجيوديسية": {
+                start: new Date('2024-06-21T00:00:00'), // موعد البداية
+                end: new Date('2024-06-27T23:59:59'),   // موعد الانتهاء
+                formUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID_1/viewform"
+            },
+            "مساقط الخرائط": {
+                start: new Date('2024-06-22T00:00:00'),
+                end: new Date('2024-06-28T23:59:59'),
+                formUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID_2/viewform"
+            },
+            "المساحة الجوية": {
+                start: new Date('2024-06-23T00:00:00'),
+                end: new Date('2024-06-29T23:59:59'),
+                formUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID_3/viewform"
+            },
+            "جغرافية مصر الطبيعية": {
+                start: new Date('2024-06-24T00:00:00'),
+                end: new Date('2024-06-30T23:59:59'),
+                formUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID_4/viewform"
+            },
+            "الجغرافيا السياسية": {
+                start: new Date('2024-06-25T00:00:00'),
+                end: new Date('2024-07-01T23:59:59'),
+                formUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID_5/viewform"
+            },
+            "التخطيط الإقليمي": {
+                start: new Date('2024-06-26T00:00:00'),
+                end: new Date('2024-07-02T23:59:59'),
+                formUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID_6/viewform"
+            },
+            "استشعار عن بعد متقدم": {
+                start: new Date('2024-06-27T00:00:00'),
+                end: new Date('2024-07-03T23:59:59'),
+                formUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID_7/viewform"
+            }
+        };
+
+        const tableBody = document.getElementById('scheduleTable');
+        for (const [subject, schedule] of Object.entries(schedules)) {
+            const row = document.createElement('tr');
+            const subjectCell = document.createElement('td');
+            subjectCell.textContent = subject;
+            const startCell = document.createElement('td');
+            startCell.textContent = schedule.start.toLocaleString('ar-EG');
+            const endCell = document.createElement('td');
+            endCell.textContent = schedule.end.toLocaleString('ar-EG');
+            const countdownCell = document.createElement('td');
+            countdownCell.className = 'countdown';
+            countdownCell.dataset.endTime = schedule.end;
+            row.appendChild(subjectCell);
+            row.appendChild(startCell);
+            row.appendChild(endCell);
+            row.appendChild(countdownCell);
+            tableBody.appendChild(row);
+        }
+
+        function updateCountdown() {
+            const countdownElements = document.querySelectorAll('.countdown');
+            countdownElements.forEach(element => {
+                const endTime = new Date(element.dataset.endTime);
+                const now = new Date();
+                const timeLeft = endTime - now;
+
+                if (timeLeft <= 0) {
+                    element.textContent = 'انتهت مدة التكليف';
+                } else {
+                    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    element.textContent = `${days} يوم ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+                }
+            });
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        document.getElementById('assignmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const subject = document.getElementById('subject').value;
+            const currentDateTime = new Date();
+            
+            const schedule = schedules[subject];
+            const messageElement = document.getElementById('message');
+            
+            if (currentDateTime < schedule.start) {
+                messageElement.textContent = 'لم يبدأ موعد رفع التكليف بعد';
+                messageElement.style.display = 'block';
+                return;
+            }
+            
+            if (currentDateTime > schedule.end) {
+                messageElement.textContent = 'تم انتهاء مدة رفع التكليف';
+                messageElement.style.display = 'block';
+                return;
+            }
+
+            window.location.href = schedule.formUrl;
+        });
+    </script>
+</body>
+</html>

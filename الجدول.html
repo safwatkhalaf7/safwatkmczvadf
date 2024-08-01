@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول حضور المحاضرات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 90%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            text-align: center;
+            direction: rtl;
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #000;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        th {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .highlight {
+            background-color: #fde9d9;
+        }
+
+        .empty {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>جدول حضور المحاضرات</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>الوقت</th>
+                <th>8-9</th>
+                <th>9-10</th>
+                <th>10-11</th>
+                <th>11-12</th>
+                <th>12-1</th>
+                <th>1-2</th>
+                <th>2-3</th>
+                <th>3-4</th>
+                <th>4-5</th>
+                <th>5-6</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>الأحد</th>
+                <td class="highlight">جغرافيا اقتصادية<br>أ.د/ صالح موسى<br>المدرج</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="highlight">نصوص أدبية<br>د/ صالح عبد الرؤوف<br>القاعة الكبرى</td>
+                <td class="empty"></td>
+                <td class="highlight">ساعة تكنولوجية (عملي)<br>د/ صالح عبد الرؤوف<br>المدرج</td>
+            </tr>
+            <tr>
+                <th>الاثنين</th>
+                <td class="highlight">ساعة تكنولوجية مغربية<br>د/ صالح رجائي<br>القاعة الكبرى</td>
+                <td class="highlight">جغرافيا العمران الريفي<br>د/ نصر زين<br>المدرج</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="highlight">نصوص من الأدب الإنجليزي<br>د/ محمد البغدادي<br>المدرج</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+            </tr>
+            <tr>
+                <th>الثلاثاء</th>
+                <td class="highlight">مدخل إلى الجغرافيا<br>د/ سامر عبد السلام<br>القاعة الكبرى</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="highlight">مدخل إلى علم البيانات والمعلومات<br>د/ سامر عبد السلام<br>المدرج</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+            </tr>
+            <tr>
+                <th>الأربعاء</th>
+                <td class="highlight">جغرافيا البيئة والمجتمعات<br>د/ عوض يليني<br>المدرج</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="highlight">ساعة تكنولوجية (عملي)<br>د/ صالح عبد الرؤوف<br>القاعة الكبرى</td>
+                <td class="highlight">تاريخ حديث<br>د/ محمد الحصري<br>المدرج</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+            </tr>
+            <tr>
+                <th>الخميس</th>
+                <td class="highlight">تاريخ حضارات قديمة<br>د/ نصر زين<br>القاعة الكبرى</td>
+                <td class="highlight">ترجمة من الفرنسية إلى العربية<br>د/ سامر عبد السلام<br>301</td>
+                <td class="highlight">ساعة تكنولوجية مغربية<br>د/ صالح رجائي<br>القاعة الكبرى</td>
+                <td class="highlight">جغرافيا إدارية<br>د/ عوض يليني<br>المدرج</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
